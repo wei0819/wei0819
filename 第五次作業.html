@@ -1,0 +1,76 @@
+<!DOCTYPE HTML>
+<html>
+<head>
+<style>
+.lowalarm {
+	font-size: 12px;
+	color: #009;
+}
+.midalarm {
+	font-size: 18px;
+	color: #C66;
+	position: absolute;
+	left: 50px;
+	top: 50px;
+}
+.highalarm {
+	font-size: 36px;
+	font-style: italic;
+	color: #F00;
+	text-decoration: underline blink;
+	background-color: #FF9;
+	border: thick solid #F00;
+	position: absolute;
+	left: 100px;
+	top: 100px;
+}
+</style>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<title>時鐘</title>
+<script type="text/javascript" language="javascript">
+var interval;
+    function increaseNumber(step){
+        var no = document.getElementById('no');
+        var pid = document.getElementById('progress_bar');
+        var curStep = parseInt(no.innerHTML);
+// If progress is 100%, it should not continue progressing value.
+        if (curStep < 100){
+            no.innerHTML = curStep + step;
+            pid.value = no.innerHTML;
+			
+			if (curStep == 50 ) {document.getElementById("timer").className = "lowalarm";}
+		    if (curStep == 75) {document.getElementById("timer").className = "midalarm";}
+		    if (curStep == 90) {document.getElementById("timer").className = "highalarm";}
+        }
+		 
+        else
+        {
+            clearInterval(interval);
+        }
+    }
+    function call_increase(){
+// Increase value in the progress bar. argument is no. of increment.
+        increaseNumber(1);
+    }
+    interval=setInterval(call_increase,100);
+	
+	var myVar=setInterval(function(){myTimer()},1000);
+
+	function myTimer()
+	{
+		var d=new Date();
+		var t=d.toLocaleTimeString();
+		document.getElementById("timer").innerHTML=t;
+	}
+</script>
+
+</head>
+
+<body onLoad="increaseNumber(0);myTimer()">
+<label>Loading <span id="no">0</span>%</label><br/>
+<progress id="progress_bar" max="100"></progress>
+
+<p>現在時間是 <p id="timer"></p>
+
+</body>
+</html>
